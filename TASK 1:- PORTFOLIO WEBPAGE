@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AKSHAT SAINI - Portfolio</title>
+<style>
+    :root {
+        --bg-color: #0d1b2a;
+        --text-color: #ffffff;
+        --accent-color: #d4af37;
+        --card-bg: #1b263b;
+        --card-hover: #415a77;
+    }
+    body {
+        margin: 0;
+        font-family: 'Segoe UI', sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        text-align: center;
+    }
+    header {
+        padding: 40px;
+    }
+    h1 {
+        font-size: 2.5rem;
+        color: var(--accent-color);
+    }
+    h2 {
+        margin-top: 60px;
+        color: var(--accent-color);
+        font-size: 2rem;
+    }
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 15px;
+    }
+    .social-links a, .theme-toggle {
+        padding: 10px 20px;
+        background: var(--accent-color);
+        color: var(--bg-color);
+        border: none;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    .social-links a:hover, .theme-toggle:hover {
+        background: #ffd700;
+    }
+    .section {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 25px;
+        padding: 20px;
+    }
+    .skills {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 25px;
+        padding: 20px;
+    }
+    .card {
+        background-color: var(--card-bg);
+        padding: 25px;
+        width: 300px;
+        border-radius: 15px;
+        text-align: left;
+        box-shadow: 0px 4px 15px rgba(0,0,0,0.3);
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .card.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .card h3 {
+        color: var(--accent-color);
+        margin-bottom: 10px;
+    }
+    .card:hover {
+        background-color: var(--card-hover);
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Akshat Saini</h1>
+    <p>"Third-year B.Tech student in Electronics and Communication Engineering<br><br>
+        at Deen Bandhu Chhotu Ram University of Science and Technology.<br><br>
+        Passionate about next-generation technologies and aspiring to become a Software Development Engineer (SDE).<br><br>
+        Proficient in Java programming languages, with a strong foundation in problem-solving.<br><br>
+        Currently enhancing my Data Structures and Algorithms expertise while exploring web development alongside maintaining a strong academic profile as well. <br><br>
+        Eager to leverage my technical skills and open to any kind of opportunities that come to my way regarding software roles."
+
+Thank you</p>
+    <div class="social-links">
+        <a href="https://github.com/Akshatsaini702/DEVELOPERS-ARENA-FULL-STACK-INTERNSHIP.git" target="_blank">GitHub</a>
+        <button class="theme-toggle">Toggle Theme</button>
+        <a href="www.linkedin.com/in/akshatsaini05" target="_blank">LinkedIn</a>
+    </div>
+</header>
+
+      <h2>Skills</h2>
+      <div class="skills">
+        <div class="card">HTML & CSS</div>
+        <div class="card">JAVASCRIPT</div>
+        <div class="card">MONDO DB</div>
+        <div class="card">DATA STRUCTURE AND ALGORITHMS</div>
+         <div class="card">JAVA</div>
+        <div class="card">REACT</div>
+        <div class="card">NODE JS</div>
+        <div class="card">EXPRESS JS</div>
+        <div class="card">OOPS</div>
+      </div>
+    
+<h2>Education</h2>
+<div class="section">
+     <div class="card">B.Tech in ECE(currently 3rd year) - DCRUST Murthal (CGPA 7.37)</div>
+        <div class="card">SCHOOLING : (RPS PUBLIC SCHOOL, DHARUHRA) - 12TH:- 94%; 10TH:-86%</div>
+</div>
+
+<h2>Internships</h2>
+<div class="section">
+    <div class="card"><h3>Denso Ten Uno Minda</h3><p>Injection moulding, EDM, VMC, PCB Design (SMT line, AOI & SPI with Omron software)</p></div>
+    <div class="card"><h3> THE DEVELOPERS ARENA - Full Stack Developer</h3><p>6-month remote internship focusing on modern web technologies</p></div>
+</div>
+
+<h2>Extra-Curricular Activities</h2>
+<div class="section">
+     <div class="card">MEMBER OF E-CELL OF OUR COLLEGE</div>
+        <div class="card">ANCHOR COMMITTEE OF INTEC THE OFFICIAL SOCIETY OF ECE BRANCH</div>
+</div>
+
+
+<script>
+    // Theme Toggle
+    document.querySelector('.theme-toggle').addEventListener('click', () => {
+        if (document.body.style.backgroundColor === 'white') {
+            document.body.style.backgroundColor = '#0d1b2a';
+            document.body.style.color = '#ffffff';
+        } else {
+            document.body.style.backgroundColor = 'white';
+            document.body.style.color = '#000';
+        }
+    });
+
+    // Staggered Animation
+    const cards = document.querySelectorAll('.card');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const card = entry.target;
+                setTimeout(() => card.classList.add('show'), card.dataset.index * 150);
+                observer.unobserve(card);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    cards.forEach((card, index) => {
+        card.dataset.index = index;
+        observer.observe(card);
+    });
+</script>
+
+</body>
+</html>
