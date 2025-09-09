@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>React To-Do List with Add, Delete, Update</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+      padding: 30px;
+      display: flex;
+      justify-content: center;
+    }
+    #root {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #ccc;
+      width: 400px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      flex-grow: 1;
+      padding: 10px;
+      font-size: 16px;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    input[type="text"]:focus {
+      border-color: #4CAF50;
+    }
+    button {
+      background-color: #4CAF50;
+      border: none;
+      color: white;
+      padding: 0 15px;
+      border-radius: 4px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+    }
+    li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #fafafa;
+      padding: 10px 15px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      word-break: break-word;
+    }
+    li span {
+      flex-grow: 1;
+      padding-right: 10px;
+    }
+    li input[type="text"] {
+      flex-grow: 1;
+      padding: 5px 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      outline: none;
+    }
+    li button {
+      margin-left: 5px;
+      padding: 4px 10px;
+      font-size: 14px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
+    li button.delete {
+      background-color: #e74c3c;
+      color: white;
+    }
+    li button.delete:hover {
+      background-color: #c0392b;
+    }
+    li button.edit {
+      background-color: #3498db;
+      color: white;
+    }
+    li button.edit:hover {
+      background-color: #2980b9;
+    }
+    li button.save {
+      background-color: #27ae60;
+      color: white;
+    }
+    li button.save:hover {
+      background-color: #1e8449;
+    }
+    li button.cancel {
+      background-color: #7f8c8d;
+      color: white;
+    }
+    li button.cancel:hover {
+      background-color: #616a6b;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React and ReactDOM via CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <!-- Babel for JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    function TodoApp() {
+      const [task, setTask] = useState("");
+      const [todos, setTodos] = useState([]);
+      const [editIndex, setEditIndex] = useState(null);
+      const [editTask, setEditTask] = useState("");
+
+      function handleAdd(e) {
+        e.preventDefault();
+        const trimmedTask = task.trim();
+        if (trimmedTask === "") return;
+        setTodos([...todos, trimmedTask]);
+        setTask("");
+      }
+
+      function handleDelete(index) {
+        setTodos(todos.filter((_, i) => i !== index));
+        if (editIndex === index) {
+          setEditIndex(null);
+          setEditTask("");
+        }
+      }
+
+      function handleEdit(index) {
+        setEditIndex(index);
+        setEditTask(todos[index]);
+      }
+
+      function handleSave(index) {
+        const trimmedTask = editTask.trim();
+        if (trimmedTask === "") return;
+        const updatedTodos = [...todos];
+        updatedTodos[index] = trimmedTask;
+        setTodos(updatedTodos);
+        setEditIndex(null);
+        setEditTask("");
+      }
+
+      function handleCancel() {
+        setEditIndex(null);
+        setEditTask("");
+      }
+
+      return (
+        <div>
+          <h2>React To-Do List</h2>
+          <form onSubmit={handleAdd}>
+            <input
+              type="text"
+              placeholder="Enter a task"
+              value={task}
+              onChange={(e) => setTask(e.target.value)}
+            />
+            <button type="submit">Add</button>
+          </form>
+          <ul>
+            {todos.map((todo, index) => (
+              <li key={index}>
+                {editIndex === index ? (
+                  <>
+                    <input
+                      type="text"
+                      value={editTask}
+                      onChange={(e) => setEditTask(e.target.value)}
+                    />
+                    <button className="save" onClick={() => handleSave(index)}>Save</button>
+                    <button className="cancel" onClick={handleCancel}>Cancel</button>
+                  </>
+                ) : (
+                  <>
+                    <span>{todo}</span>
+                    <button className="edit" onClick={() => handleEdit(index)}>Edit</button>
+                    <button className="delete" onClick={() => handleDelete(index)}>Delete</button>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<TodoApp />);
+  </script>
+</body>
+</html>
